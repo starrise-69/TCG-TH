@@ -828,6 +828,24 @@
 			renderFrontEndGrids();
 			navigateTo('welcomePage');
 		};
+		// แทนที่ฟังก์ชัน addNewShop เดิมใน HTML ด้วยอันนี้
+async function addNewShop() {
+    const data = {
+        action: 'add',
+        id: document.getElementById('adminAddId').value,
+        category: document.getElementById('adminAddCategory').value,
+        // ... (ดึงค่าอื่นๆ มาใส่ให้ครบ) ...
+    };
+
+    await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // สำคัญสำหรับ Apps Script
+        body: JSON.stringify(data)
+    });
+    alert("บันทึกลง Google Sheets แล้ว!");
+    location.reload(); // รีโหลดหน้าเว็บเพื่อดึงข้อมูลใหม่
+}
+
 	</script>
 </body>
 </html>
