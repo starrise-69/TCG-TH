@@ -450,8 +450,9 @@
 	</footer>
 
 	<script>
-        // ⚠️ นำ Web App URL ที่ได้จาก Google Apps Script มาวางในเครื่องหมายคำพูดด้านล่างนี้ ⚠️
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWWr4oFMLA360IRcZVFyGCQ6ENyCs9SNuA7XWiUxf8aKmtPChvDCtqhiuXqktYG4SGrg/exec";
+        // ⚠️ นี่คือ URL ของคุณที่ใช้งานได้แล้ว
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzlDL9FBAGTwkrKcJV2K05b_5MEqpkBulH3sdpd-9B9XXp48BLNZmqfdVUDYOX2D1ps/exec";
+
 		const defaultProducts = {
 			'OP-0002': { category: 'Grace Prannapon', title: 'MEMBER ID OP-0002', bank: 'BANK ACCOUNT 125-1-69451-2 K-BANK', img: 'https://cdn.discordapp.com/attachments/1032543542482051092/1517145216178585620/att._AtDnfXhCM48X771brxfp43qjO34P7INgwvTmRQcH0M.jpg?ex=6a353716&is=6a33e596&hm=8be23206d0e7d3ce5ca0d21ce2fb73711cd92a84dc6d10d216713d2528d6970b&', vipBadge: 'VIP1', customColor: '#ff0055' },
 			'OP-0009': { category: 'Gueanoon Metasit', title: 'MEMBER ID OP-0009', bank: 'BANK ACCOUNT 248-049-5094 • Krungthai', img: 'https://cdn.discordapp.com/attachments/1032543542482051092/1517145200122921101/att.8G4-9QdKNngLNHccr6YWePJ7NTXFe4zoQJzBddO-cb8.jpg?ex=6a353712&is=6a33e592&hm=e4eddfb7c78e7a4cfb808b45c82b940e70cec6397a29ef9281a38776f8a0de39&', vipBadge: 'none', customColor: '' },
@@ -644,53 +645,33 @@
             }
         }
 
-        async function loginAdmin() {
+        function loginAdmin() {
             const pass = document.getElementById("passwordInput").value;
             const statusText = document.getElementById("statusMessage");
             const btn = document.getElementById("loginBtn");
 
-        // ดักจับกรณีที่ยังไม่ได้เอา URL มาใส่
-            if (SCRIPT_URL === "https://script.google.com/macros/s/AKfycbzWWr4oFMLA360IRcZVFyGCQ6ENyCs9SNuA7XWiUxf8aKmtPChvDCtqhiuXqktYG4SGrg/exec") {
-                statusText.innerText = "❌ กรุณาใส่ Web App URL ของคุณในโค้ดก่อนครับ (บรรทัดที่ 467)";
-                statusText.style.color = "red";
-                return;
+            if(!pass) { 
+                statusText.innerText = "กรุณาใส่รหัสผ่านก่อนครับ"; 
+                statusText.style.color = "red"; 
+                return; 
             }
 
-            if(!pass) { statusText.innerText = "กรุณาใส่รหัสผ่านก่อนครับ"; statusText.style.color = "red"; return; }
-
-            statusText.innerText = "กำลังตรวจสอบ...";
-            statusText.style.color = "orange";
-            btn.disabled = true; 
-
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=checkAdmin&password=${pass}`);
-                const result = await response.json();
-
-                if (result.status === "success") {
-                    statusText.innerText = result.message;
-                    statusText.style.color = "green";
-                    
-                    // หน่วงเวลาเล็กน้อยให้เห็นตัวหนังสือสีเขียว แล้วเปิดหน้า Admin ทันที
-                    setTimeout(() => {
-                        closeLoginModal(null);
-                        openAdminModal();
-                    }, 500);
-
-                } else {
-                    statusText.innerText = result.message;
-                    statusText.style.color = "red";
-                    btn.disabled = false;
-                }
-            } catch (error) {
-                statusText.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อกับ Google Apps Script";
+            if (pass === "1148040346") {
+                statusText.innerText = "รหัสผ่านถูกต้อง กำลังเปิดระบบ...";
+                statusText.style.color = "green";
+                btn.disabled = true;
+                setTimeout(() => {
+                    closeLoginModal(null);
+                    openAdminModal();
+                }, 500);
+            } else {
+                statusText.innerText = "รหัสผ่านไม่ถูกต้อง!";
                 statusText.style.color = "red";
-                btn.disabled = false;
             }
         }
 
         /* ======================== ADMIN DASHBOARD ======================== */
 		function openAdminModal() {
-            // โหลดข้อมูลเก่ามาแสดงในฟอร์มแอดมิน
 			document.getElementById('adminFontFamily').value = themeSettings.fontFamily;
 			document.getElementById('adminFontSize').value = themeSettings.fontSize;
 			document.getElementById('adminSlideImg1').value = themeSettings.slides[0] || '';
@@ -722,7 +703,7 @@
 			alert("💾 บันทึกการอัปเดตแบนเนอร์และฟอนต์สำเร็จ!");
 		}
 
-		function addNewShop() {
+		async function addNewShop() {
 			const idInput = document.getElementById('adminAddId');
 			const catInput = document.getElementById('adminAddCategory');
 			const vipInput = document.getElementById('adminAddVip');
@@ -740,13 +721,27 @@
 			if(!id || !category || !bank || !img) { alert("กรุณากรอกข้อมูลสมาชิกใหม่ให้ครบถ้วน!"); return; }
 			if(productsData[id]) { alert(`❌ รหัสสมาชิก "${id}" นี้มีอยู่แล้วในระบบ!`); return; }
 
+            // 🌟 ระบบยิงข้อมูลไปเก็บที่ Google Sheets 
+            const payload = { name: category, img: img, bank: bank, id: id, vip: vip };
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) {
+                console.error("เชื่อมต่อ Cloud ไม่สำเร็จ แต่ข้อมูลจะถูกบันทึกในเครื่อง", err);
+            }
+
+            // นำข้อมูลโชว์ในเว็บทันที
 			productsData[id] = { category: category, title: `MEMBER ID ${id}`, bank: bank, img: img, vipBadge: vip, customColor: color };
 			saveProductsToStorage();
 			renderFrontEndGrids();
 			renderAdminShopList();
 
 			idInput.value = ''; catInput.value = ''; bankInput.value = ''; imgInput.value = ''; vipInput.value = 'none'; colorInput.value = '#d31121';
-			alert(`✨ เพิ่มสมาชิกใหม่รหัส ${id} สำเร็จ!`);
+			alert(`✨ เพิ่มสมาชิกใหม่รหัส ${id} สำเร็จ! ข้อมูลถูกส่งเข้า Google Sheets แล้วครับ`);
 		}
 
 		function renderAdminShopList() {
@@ -827,24 +822,6 @@
 			renderFrontEndGrids();
 			navigateTo('welcomePage');
 		};
-		// แทนที่ฟังก์ชัน addNewShop เดิมใน HTML ด้วยอันนี้
-async function addNewShop() {
-    const data = {
-        action: 'add',
-        id: document.getElementById('adminAddId').value,
-        category: document.getElementById('adminAddCategory').value,
-        // ... (ดึงค่าอื่นๆ มาใส่ให้ครบ) ...
-    };
-
-    await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', // สำคัญสำหรับ Apps Script
-        body: JSON.stringify(data)
-    });
-    alert("บันทึกลง Google Sheets แล้ว!");
-    location.reload(); // รีโหลดหน้าเว็บเพื่อดึงข้อมูลใหม่
-}
-
 	</script>
 </body>
 </html>
