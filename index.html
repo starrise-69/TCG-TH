@@ -451,7 +451,7 @@
 
 	<script>
         // ⚠️ นี่คือ URL ของคุณที่ใช้งานได้แล้ว
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQF5seQ0N0_WjlUNIKp2d2Mg5HES-vnyBCiFOOBClZ-GK05v_AtPUOuDJBDWmFGw3IJQ/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz9L9XpyBispM8mtHSPhWG58jY2X3EHMnzlyBZkyLD1HyHCY9LFTtDk2pae13oy1TEA0Q/exec";
 
 		const defaultProducts = {
 			'OP-0002': { category: 'Grace Prannapon', title: 'MEMBER ID OP-0002', bank: 'BANK ACCOUNT 125-1-69451-2 K-BANK', img: 'https://cdn.discordapp.com/attachments/1032543542482051092/1517145216178585620/att._AtDnfXhCM48X771brxfp43qjO34P7INgwvTmRQcH0M.jpg?ex=6a353716&is=6a33e596&hm=8be23206d0e7d3ce5ca0d21ce2fb73711cd92a84dc6d10d216713d2528d6970b&', vipBadge: 'VIP1', customColor: '#ff0055' },
@@ -724,7 +724,7 @@
             // 🌟 ระบบยิงข้อมูลไปเก็บที่ Google Sheets 
             const payload = { name: category, img: img, bank: bank, id: id, vip: vip };
             try {
-                await fetch(SCRIPT_URL, {
+                await fetch("https://script.google.com/macros/s/AKfycbz9L9XpyBispM8mtHSPhWG58jY2X3EHMnzlyBZkyLD1HyHCY9LFTtDk2pae13oy1TEA0Q/exec"L, {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/json" },
