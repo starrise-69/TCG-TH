@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<span style="text-decoration: underline;"><!DOCTYPE html>
 <html lang="th">
 
 <head>
@@ -451,7 +451,7 @@
 
 	<script>
         // ⚠️ นี่คือ URL ของคุณที่ใช้งานได้แล้ว
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjEoUtk1e23lDkY6p5WGYG0yn5NJdKypjhElKjonY8RFoiimxBMynnECBjIEZseYeI6Q/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7LKuli7h1C1c8dkYiZgpxXL9NzzmKIxcWfyJINQXkXhGVOp2CUS9dpsund_M0vnA_/exec";
 
 		const defaultProducts = {
 			'OP-0002': { category: 'Grace Prannapon', title: 'MEMBER ID OP-0002', bank: 'BANK ACCOUNT 125-1-69451-2 K-BANK', img: 'https://cdn.discordapp.com/attachments/1032543542482051092/1517145216178585620/att._AtDnfXhCM48X771brxfp43qjO34P7INgwvTmRQcH0M.jpg?ex=6a353716&is=6a33e596&hm=8be23206d0e7d3ce5ca0d21ce2fb73711cd92a84dc6d10d216713d2528d6970b&', vipBadge: 'VIP1', customColor: '#ff0055' },
@@ -822,41 +822,7 @@
 			renderFrontEndGrids();
 			navigateTo('welcomePage');
 		};
-		// ฟังก์ชันดึงข้อมูลจาก Sheets แบบ Asynchronous
-async function loadProductsFromSheets() {
-    try {
-        // ใช้ SCRIPT_URL ตัวเดียวกับที่คุณใช้ตอนบันทึกข้อมูล
-        const response = await fetch(SCRIPT_URL);
-        const fetchedData = await response.json();
-
-        // ตรวจสอบว่ามีข้อมูลส่งกลับมาจริงๆ
-        if (fetchedData && Object.keys(fetchedData).length > 0) {
-            productsData = fetchedData; // นำข้อมูลจาก Sheets มาทับข้อมูลเดิม
-            saveProductsToStorage();    // เซฟลง Local Storage
-            renderFrontEndGrids();      // รีเฟรชหน้าจอเพื่อแสดงผลการ์ดใหม่
-            
-            // ถ้าหน้าแอดมินเปิดอยู่ ให้รีเฟรชลิสต์รายชื่อด้วย
-            const adminList = document.getElementById('adminShopList');
-            if (adminList && adminList.innerHTML !== "") {
-                renderAdminShopList();
-            }
-        }
-    } catch (error) {
-        console.error("ไม่สามารถดึงข้อมูลจาก Sheets ได้:", error);
-        // หากเน็ตหลุดหรือมีปัญหา มันจะใช้ข้อมูลเดิมจาก Local Storage แทน
-    }
-}
-		window.onload = function() {
-    applyThemeSettings(); 
-    
-    // 1. โหลดข้อมูลเดิมจาก Local Storage มาแสดงผลก่อนทันที (เพื่อให้เว็บดูโหลดเร็ว ไม่มีจังหวะหน่วง)
-    renderFrontEndGrids();
-    navigateTo('welcomePage');
-    
-    // 2. แอบไปดึงข้อมูลล่าสุดจาก Sheets มาอัปเดตให้แบบเนียนๆ ในพื้นหลัง
-    loadProductsFromSheets();
-};
-
 	</script>
 </body>
 </html>
+</span>
