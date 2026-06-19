@@ -724,7 +724,7 @@
             // 🌟 ระบบยิงข้อมูลไปเก็บที่ Google Sheets 
             const payload = { name: category, img: img, bank: bank, id: id, vip: vip };
             try {
-                await fetch("https://script.google.com/macros/s/AKfycbz9L9XpyBispM8mtHSPhWG58jY2X3EHMnzlyBZkyLD1HyHCY9LFTtDk2pae13oy1TEA0Q/exec"L, {
+                await fetch(SCRIPT_URL, {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/json" },
