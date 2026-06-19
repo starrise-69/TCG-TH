@@ -451,7 +451,7 @@
 
 	<script>
         // ⚠️ นี่คือ URL ของคุณที่ใช้งานได้แล้ว
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7LKuli7h1C1c8dkYiZgpxXL9NzzmKIxcWfyJINQXkXhGVOp2CUS9dpsund_M0vnA_/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydKgAr88jDalJmE-ysFVkodVeJSr9yK3vRjKaZhRwaPx-m1gJlm_mZ45UKErN5YpOw/exec";
 
 		const defaultProducts = {
 			'OP-0002': { category: 'Grace Prannapon', title: 'MEMBER ID OP-0002', bank: 'BANK ACCOUNT 125-1-69451-2 K-BANK', img: 'https://cdn.discordapp.com/attachments/1032543542482051092/1517145216178585620/att._AtDnfXhCM48X771brxfp43qjO34P7INgwvTmRQcH0M.jpg?ex=6a353716&is=6a33e596&hm=8be23206d0e7d3ce5ca0d21ce2fb73711cd92a84dc6d10d216713d2528d6970b&', vipBadge: 'VIP1', customColor: '#ff0055' },
@@ -822,6 +822,14 @@
 			renderFrontEndGrids();
 			navigateTo('welcomePage');
 		};
+		// แก้ไขบรรทัดล่างสุดของไฟล์ HTML
+window.onload = function() {
+    applyThemeSettings(); 
+    // ให้มันดึงข้อมูลจาก Sheet ทันทีที่โหลดเว็บเสร็จ
+    fetchProductsFromSheet(); 
+    navigateTo('welcomePage');
+};
+
 	</script>
 </body>
 </html>
